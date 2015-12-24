@@ -46,7 +46,6 @@ if [ ! "x${git_no_edit}" = "x" ] ; then
 fi
 
 mkdir -p ${DIR}/git/
-mkdir -p ${DIR}/dl/
 mkdir -p ${DIR}/deploy/
 
 rm -rf ${DIR}/deploy/latest-bootloader.log || true
@@ -57,11 +56,8 @@ if [ ! "${MIRROR}" ] ; then
 	MIRROR="http:"
 fi
 
-if [ -d $HOME/dl/gcc/ ] ; then
-	gcc_dir="$HOME/dl/gcc"
-else
-	gcc_dir="${DIR}/dl"
-fi
+gcc_dir="$HOME/local/linaro/"
+mkdir -p ${gcc_dir}
 
 wget_dl="wget -c --directory-prefix=${gcc_dir}/"
 
