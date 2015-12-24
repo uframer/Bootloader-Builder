@@ -1095,36 +1095,98 @@ wandboard () {
 	board="wandboard" ; build_uboot_gnueabihf
 }
 
-#A10_OLinuXino_Lime
-#A20_OLinuXino_Lime
-#A20_OLinuXino_Lime2
-#A20_OLinuXino_MICRO
-#am335x_evm
-am335x_boneblack_flasher
-#am43xx_evm
-#am57xx_evm
-#at91sam9x5ek
-#Bananapi
-#Bananapro
-#beagle_x15_ti
-#cm_fx6
-#firefly_rk3288
-#mx23_olinuxino
-#mx51evk
-#mx53loco
-#mx6qsabresd
-#omap3_beagle
-#omap4_panda
-#omap5_uevm
-#rpi_2
-#sama5d2_xplained
-#sama5d3xek
-#sama5d3_xplained
-#sama5d4ek
-#sama5d4_xplained
-#socfpga_de0_nano_soc
-#Sinovoip_BPI_M2
-#udoo
-#vf610twr
-#wandboard
-#
+board_list=( \
+    A10_OLinuXino_Lime \
+	A20_OLinuXino_Lime \
+	A20_OLinuXino_Lime2 \
+	A20_OLinuXino_MICRO \
+	am335x_evm \
+	am335x_boneblack_flasher \
+	am43xx_evm \
+	am57xx_evm \
+	at91sam9x5ek \
+	Bananapi \
+	Bananapro \
+	beagle_x15_ti \
+	cm_fx6 \
+	firefly_rk3288 \
+	mx23_olinuxino \
+	mx51evk \
+	mx53loco \
+	mx6qsabresd \
+	omap3_beagle \
+	omap4_panda \
+	omap5_uevm \
+	rpi_2 \
+	sama5d2_xplained \
+	sama5d3xek \
+	sama5d3_xplained \
+	sama5d4ek \
+	sama5d4_xplained \
+	socfpga_de0_nano_soc \
+	Sinovoip_BPI_M2 \
+	udoo \
+	vf610twr \
+	wandboard \
+)
+
+version_list=( \
+    old \
+    stable \
+    testing \
+    next \
+)
+
+list_boards () {
+    for b in ${board_list[@]} ; do
+        printf "$b\n"
+    done
+}
+
+# $0 - board
+# $1 - version
+build_board_version () {
+    local _board=$1
+    local _version=$2
+    echo "Build board version: $_board $_version"
+    $_board
+}
+
+# $0 - board
+build_board () {
+    local _board=$1
+#    for v in ${version_list[@]} ; do
+#        build_board_version $_board $v
+#    done
+    echo "TODO: <version> is ignored for now, all versions will be built"
+    $_board
+}
+
+build_all () {
+    for b in ${board_list[@]} ; do
+        build_board $b
+    done
+}
+
+usage () {
+    printf "Usage:\n"
+    printf "$0 list\n\tlist available boards\n"
+    printf "$0 all\n\tbuild all versions {old, stable, testing, next} for all boards\n"
+    printf "$0 <board>\n\tbuild all versions for <board>\n"
+    printf "$0 <board> <version>\n\tbuild <version> for <board>\n"
+}
+
+if [ $# == "1" ] ; then
+    if [ $1 == "list" ] ; then
+        list_boards
+    elif [ $1 == "all" ] ; then
+        build_all
+    else
+        build_board $1
+    fi
+elif [ $# == "2" ] ; then
+    build_board_version $1 $2
+else
+    usage
+    exit 0
+fi
