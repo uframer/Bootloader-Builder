@@ -1,0 +1,17 @@
+dist: trusty
+sudo: required
+language: c
+compiler: gcc
+cache: ccache
+addons:
+  apt:
+    packages:
+    - bc
+    - ccache
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y device-tree-compiler
+script:
+  - git config --global user.email "rcnee@example.com"
+  - git config --global user.name "rcnee"
+  - bash -e build.sh
